@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TYSON v4 — Strength Training Companion</title>
+  <meta name="description" content="TYSON helps you plan, log, and improve strength with clear direction: goals, targets, progression, diagnostics, and tools." />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">TYSON</div>
+      <div>
+        <div class="title">Strength Training Companion</div>
+        <div class="sub">Goals • Plans • Logs • Targets • Diagnostics • Tools (saved locally)</div>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-view="dashboard">Dashboard</button>
+      <button class="tab" data-view="goals">Goals</button>
+      <button class="tab" data-view="program">Program</button>
+      <button class="tab" data-view="log">Log</button>
+      <button class="tab" data-view="insights">Insights</button>
+      <button class="tab" data-view="muscles">Muscles</button>
+      <button class="tab" data-view="tools">Tools</button>
+      <button class="tab" data-view="library">Library</button>
+      <button class="tab" data-view="sources">Sources</button>
+      <button class="tab" data-view="settings">Settings</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Start Here</div>
+            <div class="cardNote">Direction even if you enter very little</div>
+          </div>
+          <div class="cardBody" id="startHere"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Profile</div>
+            <div class="cardNote">Goal, schedule, equipment, experience</div>
+          </div>
+          <div class="cardBody">
+            <div class="formGrid">
+              <label class="field">
+                <span>Goal</span>
+                <select id="profileGoal">
+                  <option value="strength">Strength</option>
+                  <option value="hypertrophy">Hypertrophy</option>
+                  <option value="general">General fitness</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Experience</span>
+                <select id="profileExperience">
+                  <option value="novice">Novice (0–12 months)</option>
+                  <option value="intermediate">Intermediate (1–3 years)</option>
+                  <option value="advanced">Advanced (3+ years)</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Days / week</span>
+                <input id="profileDays" type="number" min="1" max="7" value="3"/>
+              </label>
+              <label class="field">
+                <span>Minutes / session</span>
+                <input id="profileMinutes" type="number" min="20" max="180" value="60"/>
+              </label>
+              <label class="field">
+                <span>Bodyweight (optional)</span>
+                <input id="profileBodyweight" type="number" min="0" step="0.1" placeholder="e.g., 180 (lb)"/>
+              </label>
+              <label class="field">
+                <span>Priority focus</span>
+                <select id="profilePriority">
+                  <option value="balanced">Balanced</option>
+                  <option value="upper">Upper-body focus</option>
+                  <option value="lower">Lower-body focus</option>
+                  <option value="push">Push focus</option>
+                  <option value="pull">Pull focus</option>
+                  <option value="legs">Legs focus</option>
+                  <option value="arms">Arms focus</option>
+                  <option value="back">Back focus</option>
+                  <option value="chest">Chest focus</option>
+                  <option value="shoulders">Shoulders focus</option>
+                  <option value="core">Core focus</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Preferred training time</span>
+                <select id="profileTrainTime">
+                  <option value="morning">Morning</option>
+                  <option value="midday">Midday</option>
+                  <option value="evening">Evening</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Wake time</span>
+                <input id="profileWake" type="time" value="07:00"/>
+              </label>
+              <label class="field">
+                <span>Bed time</span>
+                <input id="profileBed" type="time" value="23:00"/>
+              </label>
+              <label class="field">
+                <span>Work start (optional)</span>
+                <input id="profileWorkStart" type="time" value="09:00"/>
+              </label>
+              <label class="field">
+                <span>Work end (optional)</span>
+                <input id="profileWorkEnd" type="time" value="17:00"/>
+              </label>
+              <label class="field">
+                <span>Break every (min)</span>
+                <input id="profileBreakEvery" type="number" min="15" max="180" value="45"/>
+              </label>
+              <label class="field">
+                <span>Cardio modality</span>
+                <select id="profileCardioMod">
+                  <option value="none">None</option>
+                  <option value="walk">Walking</option>
+                  <option value="run">Running</option>
+                  <option value="cycle">Cycling</option>
+                  <option value="row">Rowing</option>
+                  <option value="swim">Swimming</option>
+                  <option value="hiit">Intervals/HIIT</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Cardio days / week</span>
+                <input id="profileCardioDays" type="number" min="0" max="7" value="0"/>
+              </label>
+              <label class="field">
+                <span>Cardio minutes / session</span>
+                <input id="profileCardioMin" type="number" min="0" max="180" value="0"/>
+              </label>
+              <label class="field">
+                <span>Cardio intensity</span>
+                <select id="profileCardioInt">
+                  <option value="easy">Easy</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="divider"></div>
+            <div class="small">Equipment</div>
+            <div class="chips" id="equipChips"></div>
+
+            <div class="divider"></div>
+            <div class="row">
+              <button class="btn primary" id="btnSaveProfile">Save profile</button>
+              <div class="small" id="profileStatus"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Today’s Readiness</div>
+            <div class="cardNote">Optional: helps TYSON adjust intensity/volume</div>
+          </div>
+          <div class="cardBody" id="readinessCard"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Weekly Summary</div>
+            <div class="cardNote">Your “coach report” + next actions</div>
+          </div>
+          <div class="cardBody" id="weeklySummary"></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Volume vs Target</div>
+            <div class="cardNote">Effective sets (last 7 days) vs recommended range</div>
+          </div>
+          <div class="cardBody">
+            <canvas id="chartVolume" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Strength Trend</div>
+            <div class="cardNote">Estimated 1RM from logged sets (last 12 weeks)</div>
+          </div>
+          <div class="cardBody">
+            <canvas id="chartStrength" height="160"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">This Week</div>
+            <div class="cardNote">Your generated plan (editable via swaps)</div>
+          </div>
+          <div class="cardBody">
+            <div class="week" id="weekPlan"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Quick Insights</div>
+            <div class="cardNote">Targets, red flags, what to do next</div>
+          </div>
+          <div class="cardBody">
+            <div id="insights"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GOALS -->
+    <section class="view" id="view-goals">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Goal Wizard</div>
+            <div class="cardNote">Turn “get stronger” into a concrete 12-week target</div>
+          </div>
+          <div class="cardBody" id="goalWizard"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Active Goals</div>
+            <div class="cardNote">Progress, milestones, and the next best step</div>
+          </div>
+          <div class="cardBody" id="goalList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAM -->
+    <section class="view" id="view-program">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Program Builder</div>
+            <div class="cardNote">Generate a coherent week plan from your profile</div>
+          </div>
+          <div class="cardBody" id="programBuilder"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Plugin Generator</div>
+            <div class="cardNote">Start from a template and auto-fill exercises</div>
+          </div>
+          <div class="cardBody">
+            <div class="row">
+              <select id="pluginPick"></select>
+              <button class="btn" id="btnGenFromPlugin">Generate</button>
+            </div>
+            <div class="small" id="pluginNote"></div>
+            <div class="divider"></div>
+            <div class="row">
+              <button class="btn primary" id="btnGenerateWeek">Generate week (autopilot)</button>
+              <button class="btn" id="btnClearPlan">Clear plan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOG -->
+    <section class="view" id="view-log">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Log a Session</div>
+            <div class="cardNote">Track top sets, RPE, and session load (optional)</div>
+          </div>
+          <div class="cardBody">
+            <form id="logForm" class="formGrid">
+              <label class="field">
+                <span>Date</span>
+                <input id="logDate" type="date"/>
+              </label>
+              <label class="field">
+                <span>Exercise</span>
+                <select id="logExercise"></select>
+              </label>
+              <label class="field">
+                <span>Sets</span>
+                <input id="logSetCount" type="number" min="1" max="12" value="3"/>
+              </label>
+              <label class="field">
+                <span>Reps (per set)</span>
+                <input id="logReps" type="number" min="1" max="30" value="5"/>
+              </label>
+              <label class="field">
+                <span>Weight</span>
+                <input id="logWeight" type="number" min="0" step="0.5" placeholder="e.g., 185"/>
+              </label>
+              <label class="field">
+                <span>RPE (optional)</span>
+                <input id="logRpe" type="number" min="1" max="10" step="0.5" placeholder="e.g., 8.5"/>
+              </label>
+              <label class="field">
+                <span>Duration (min, optional)</span>
+                <input id="logDuration" type="number" min="0" step="1" placeholder="e.g., 55"/>
+              </label>
+              <label class="field">
+                <span>Session RPE (optional)</span>
+                <input id="logSessionRpe" type="number" min="1" max="10" step="0.5" placeholder="e.g., 7"/>
+              </label>
+            </form>
+            <div class="row">
+              <button class="btn primary" id="btnSaveLog" type="button">Save session</button>
+              <button class="btn" id="btnClearPrefill" type="button">Clear</button>
+              <div class="small" id="logStatus"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Recent Sessions</div>
+            <div class="cardNote">Tap for details & edit/delete</div>
+          </div>
+          <div class="cardBody" id="logList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section class="view" id="view-insights">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Diagnostics</div>
+            <div class="cardNote">Plateaus, bottlenecks, and what to change next</div>
+          </div>
+          <div class="cardBody" id="diagnostics"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Training Load</div>
+            <div class="cardNote">sRPE × duration, monotony, strain (if you log it)</div>
+          </div>
+          <div class="cardBody" id="loadPanel"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardHeader">
+          <div class="cardTitle">Charts</div>
+          <div class="cardNote">Choose a lift and region for deeper analysis</div>
+        </div>
+        <div class="cardBody" id="insightsDeep"></div>
+      </div>
+    </section>
+
+    <!-- MUSCLES -->
+    <section class="view" id="view-muscles">
+      <div class="card">
+        <div class="cardHeader">
+          <div class="cardTitle">Muscle Coverage</div>
+          <div class="cardNote">Region heatmap + detailed muscles under each region</div>
+        </div>
+        <div class="cardBody" id="coverageBody"></div>
+      </div>
+    </section>    <!-- TOOLS -->
+    <section class="view" id="view-tools">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Warm-up Builder</div>
+            <div class="cardNote">Ramp sets for your working weight</div>
+          </div>
+          <div class="cardBody" id="warmupTool"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Plate Calculator</div>
+            <div class="cardNote">Compute plates per side from your inventory</div>
+          </div>
+          <div class="cardBody" id="plateTool"></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Exercise Swap Engine</div>
+            <div class="cardNote">Find replacements that keep the intent (pattern + muscles)</div>
+          </div>
+          <div class="cardBody" id="swapTool"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Rest Timer</div>
+            <div class="cardNote">Simple interval timer for sets</div>
+          </div>
+          <div class="cardBody" id="timerTool"></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Break Planner</div>
+            <div class="cardNote">Micro-breaks + exercise snacks to reduce stiffness and manage fatigue</div>
+          </div>
+          <div class="cardBody" id="breakTool"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Concurrent Training</div>
+            <div class="cardNote">Strength + cardio timing, interference warnings, spacing guidance</div>
+          </div>
+          <div class="cardBody" id="concurrentTool"></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">PR Test Planner</div>
+            <div class="cardNote">1RM test warm-ups + 7-day taper based on your logs</div>
+          </div>
+          <div class="cardBody" id="prTestTool"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Volume Landmarks</div>
+            <div class="cardNote">MEV/MAV/MRV-style heuristics using your last 7/14 days</div>
+          </div>
+          <div class="cardBody" id="volumeTool"></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Order & Overlap Checker</div>
+            <div class="cardNote">Avoid pre-fatiguing compounds and accidentally doubling a muscle group</div>
+          </div>
+          <div class="cardBody" id="orderTool"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">PRs & Milestones</div>
+            <div class="cardNote">Best e1RM, best loads, and recent PR events (from your log)</div>
+          </div>
+          <div class="cardBody" id="prTool"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section class="view" id="view-library">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Exercise Library</div>
+            <div class="cardNote">Search by pattern, muscle, equipment</div>
+          </div>
+          <div class="cardBody">
+            <div class="formGrid">
+              <label class="field">
+                <span>Search</span>
+                <input id="fQ" placeholder="e.g., squat, row, triceps"/>
+              </label>
+              <label class="field">
+                <span>Pattern</span>
+                <select id="fPattern"></select>
+              </label>
+              <label class="field">
+                <span>Muscle</span>
+                <select id="fMuscle"></select>
+              </label>
+              <label class="field">
+                <span>Equipment</span>
+                <select id="fEquip"></select>
+              </label>
+            </div>
+            <div class="divider"></div>
+            <div id="libraryBody"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Selected Exercise</div>
+            <div class="cardNote">How to use it (intent, cues, common mistakes)</div>
+          </div>
+          <div class="cardBody" id="exerciseDetail"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section class="view" id="view-sources">
+      <div class="card">
+        <div class="cardHeader">
+          <div class="cardTitle">Sources & Formulas</div>
+          <div class="cardNote">What TYSON uses for rules and calculations</div>
+        </div>
+        <div class="cardBody" id="sourcesBody"></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" id="view-settings">
+      <div class="grid2">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Settings</div>
+            <div class="cardNote">Units, rounding, e1RM method, equipment details</div>
+          </div>
+          <div class="cardBody" id="settingsBody"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">Data</div>
+            <div class="cardNote">Export/import your TYSON state</div>
+          </div>
+          <div class="cardBody">
+            <div class="row">
+              <button class="btn" id="btnExport">Export JSON</button>
+              <label class="btn">
+                Import JSON
+                <input id="fileImport" type="file" accept="application/json" style="display:none" />
+              </label>
+              <button class="btn danger" id="btnReset">Reset all data</button>
+            </div>
+            <div class="divider"></div>
+            <div class="small">Import will merge your data. Export downloads your full local state.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
